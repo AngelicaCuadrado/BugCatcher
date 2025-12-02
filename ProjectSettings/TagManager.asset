@@ -8,6 +8,7 @@ TagManager:
   - HostileBug
   - BeeFlockController
   - ButterflyFlockController
+  - LadybugFlockController
   layers:
   - Default
   - TransparentFX
