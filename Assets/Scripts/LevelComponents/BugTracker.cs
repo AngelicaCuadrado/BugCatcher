@@ -7,15 +7,25 @@ public class BugTracker : MonoBehaviour
     public int ladybugRequirment;
     public int currentLadybugs;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        // Optional: reset counts at start
+        currentButterflies = 0;
+        currentLadybugs = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RegisterButterflyCaught()
     {
-        
+        currentButterflies++;
+        Debug.Log($"[BugTracker] Butterflies caught: {currentButterflies}/{butterflyRequirement}");
+        // TODO: check for win condition here if you want
+        // if (currentButterflies >= butterflyRequirement && currentLadybugs >= ladybugRequirment) { ... }
+    }
+
+    public void RegisterLadybugCaught()
+    {
+        currentLadybugs++;
+        Debug.Log($"[BugTracker] Ladybugs caught: {currentLadybugs}/{ladybugRequirment}");
+        // TODO: same as above if needed
     }
 }
