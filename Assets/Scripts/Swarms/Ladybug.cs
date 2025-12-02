@@ -7,7 +7,6 @@ public class Ladybug : MonoBehaviour
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        controller = (LadybugFlockController)GameObject.FindGameObjectWithTag("LadybugFlockController").GetComponent("LadybugFlockController");
     }
     void Update()
     {

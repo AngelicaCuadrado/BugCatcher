@@ -8,17 +8,6 @@ public class Butterfly : MonoBehaviour
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-
-        // Find controller by tag if not already assigned
-        if (controller == null)
-        {
-            GameObject controllerObj = GameObject.FindGameObjectWithTag("ButterflyFlockController");
-            if (controllerObj != null)
-            {
-                controller = controllerObj.GetComponent<ButterflyFlockController>();
-            }
-        }
-
         // Make sure this butterfly is registered in the flock list
         if (controller != null)
         {

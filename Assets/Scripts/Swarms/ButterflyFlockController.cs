@@ -46,8 +46,6 @@ public class ButterflyFlockController : MonoBehaviour
             AddToFlock(butterfly);
         }
 
-        // --- FSM STATES ---
-
         // Evade
         var evadeState = fsm.CreateState("Evade");
         evadeState.onEnter = delegate

@@ -10,7 +10,6 @@ public class Bee : MonoBehaviour
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        controller = (BeeFlockController)GameObject.FindGameObjectWithTag("BeeFlockController").GetComponent("BeeFlockController");
     }
     void Update()
     {
