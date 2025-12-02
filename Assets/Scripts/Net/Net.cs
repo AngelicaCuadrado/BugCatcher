@@ -3,24 +3,42 @@ using UnityEngine;
 public class Net : MonoBehaviour
 {
     public BugTracker bugtracker;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
-        bugtracker = FindFirstObjectByType<BugTracker>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Auto-find if not assigned in Inspector
+        if (bugtracker == null)
+        {
+            bugtracker = FindFirstObjectByType<BugTracker>();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("FriendlyBug")) 
+        if (bugtracker == null) return;
+
+        // Did we catch a Butterfly?
+        Butterfly butterfly = other.GetComponent<Butterfly>();
+        if (butterfly != null)
         {
-            Destroy(other.gameObject);
+            bugtracker.RegisterButterflyCaught();
+            Destroy(butterfly.gameObject);
+            return;
         }
-        //Add objective points
+
+        // Did we catch a Ladybug?
+        Ladybug ladybug = other.GetComponent<Ladybug>();
+        if (ladybug != null)
+        {
+            bugtracker.RegisterLadybugCaught();
+            Destroy(ladybug.gameObject);
+            return;
+        }
+
+        // If you still want a generic catch-all:
+        // if (other.CompareTag("FriendlyBug"))
+        // {
+        //     Destroy(other.gameObject);
+        // }
     }
 }

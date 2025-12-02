@@ -75,4 +75,12 @@ public class Ladybug : MonoBehaviour
         + controller.randomizeWeight * randomize
         );
     }
+
+    private void OnDestroy()
+    {
+        if (controller != null)
+        {
+            controller.RemoveFromFlock(this);
+        }
+    }
 }
