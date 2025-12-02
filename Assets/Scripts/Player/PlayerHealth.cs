@@ -24,6 +24,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        Debug.Log($"[PlayerHealth] Took {amount} damage → {CurrentHealth}/{maxHealth}");
         if (amount <= 0) return;
         if (CurrentHealth <= 0) return; // already dead
 

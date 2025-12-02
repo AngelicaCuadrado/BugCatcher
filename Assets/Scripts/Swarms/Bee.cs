@@ -30,20 +30,31 @@ public class Bee : MonoBehaviour
                 rigidbody.linearVelocity = rigidbody.linearVelocity.normalized *
                 controller.minVelocity;
             }
+
+            if (transform.position.y < 0f)
+            {
+                Vector3 pos = transform.position;
+                pos.y = 0f;
+                transform.position = pos;
+
+
+                if (rigidbody.linearVelocity.y < 0f)
+                    rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
+            }
         }
     }
     private Vector3 Steer()
     {
-        Vector3 center = controller.flockCenter - transform.localPosition;
+        Vector3 center = controller.flockCenter - transform.position;
         Vector3 velocity = controller.flockVelocity - rigidbody.linearVelocity;
-        Vector3 follow = controller.target.localPosition - transform.localPosition;
+        Vector3 follow = controller.target.position - transform.position;
         Vector3 separation = Vector3.zero;
         foreach (Bee bee in controller.flockList)
         {
             if (bee != this)
             {
-                Vector3 relativePos = transform.localPosition - bee.transform.localPosition;
-                separation += relativePos.normalized;
+                Vector3 position = transform.position - bee.transform.position;
+                separation += position.normalized;
             }
         }
         Vector3 randomize = new Vector3(Random.value * 2 - 1, Random.value * 2 - 1, Random.value * 2 - 1);
