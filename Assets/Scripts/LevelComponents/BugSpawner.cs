@@ -10,8 +10,8 @@ public class BugSpawner : MonoBehaviour
     [Header("Spawn Settings")]
     public int swarmCount = 20;  
     public float spawnRadius = 30f; 
-    public float minSpacing = 6f;  
-    public float fixedY = 0f;       
+    public float minSpacing = 6f;
+    public float heightOffset = 0.1f;
 
     private void Start()
     {
@@ -30,7 +30,10 @@ public class BugSpawner : MonoBehaviour
             safetyCounter++;
 
             Vector2 randomCircle = Random.insideUnitCircle * spawnRadius;
-            Vector3 candidatePos = new Vector3(randomCircle.x, fixedY, randomCircle.y) + transform.position;
+            Vector3 candidatePos = new Vector3(randomCircle.x, 0f, randomCircle.y) + transform.position;
+
+            float terrainHeight = Terrain.activeTerrain.SampleHeight(candidatePos);
+            candidatePos.y = terrainHeight + heightOffset;
 
             bool tooClose = false;
             foreach (Transform child in transform)
