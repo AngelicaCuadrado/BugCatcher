@@ -28,10 +28,10 @@ public class Ladybug : MonoBehaviour
                 controller.minVelocity;
             }
 
-            if (transform.position.y < 0f)
+            if (transform.position.y < 1f)
             {
                 Vector3 pos = transform.position;
-                pos.y = 0f;
+                pos.y = 1f;
                 transform.position = pos;
 
 
