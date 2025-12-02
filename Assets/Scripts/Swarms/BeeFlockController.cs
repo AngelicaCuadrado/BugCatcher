@@ -40,7 +40,7 @@ public class BeeFlockController : MonoBehaviour
         Vector3 velocity = Vector3.zero;
         foreach (Bee bee in flockList)
         {
-            center += bee.transform.localPosition;
+            center += bee.transform.position;
             velocity += bee.GetComponent<Rigidbody>().linearVelocity;
         }
         flockCenter = center / flockSize;
