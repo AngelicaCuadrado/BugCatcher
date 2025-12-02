@@ -111,4 +111,12 @@ public class LadybugFlockController : MonoBehaviour
         flockCenter = center / flockSize;
         flockVelocity = velocity / flockSize;
     }
+
+    public void RemoveFromFlock(Ladybug ladybug)
+    {
+        if (ladybug != null)
+        {
+            flockList.Remove(ladybug);
+        }
+    }
 }

@@ -592,6 +592,14 @@ PrefabInstance:
       propertyPath: agroRange
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1766119861956675340, guid: 6998b5213ae485d4e824920dd4bb9bff, type: 3}
+      propertyPath: maxVelocity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1766119861956675340, guid: 6998b5213ae485d4e824920dd4bb9bff, type: 3}
+      propertyPath: minVelocity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4274259010318844376, guid: 6998b5213ae485d4e824920dd4bb9bff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 482.13208
