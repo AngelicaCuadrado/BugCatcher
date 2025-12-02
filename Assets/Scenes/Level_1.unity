@@ -1416,6 +1416,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1629284849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1629284851}
+  - component: {fileID: 1629284850}
+  m_Layer: 0
+  m_Name: Bugtracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1629284850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629284849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40835be21bf56854ba83345d57f4f3dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  butterflyRequirement: 10
+  currentButterflies: 0
+  ladybugRequirment: 10
+  currentLadybugs: 0
+--- !u!4 &1629284851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629284849}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 480.84, y: 1.48, z: 507.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1746485323
 GameObject:
   m_ObjectHideFlags: 0
@@ -1627,17 +1675,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Net
       objectReference: {fileID: 0}
+    - target: {fileID: 4240399383529029075, guid: b9ff2ae65e4dd044cb068017c0d07d6d, type: 3}
+      propertyPath: bugtracker
+      value: 
+      objectReference: {fileID: 1629284850}
+    - target: {fileID: 6167804144520762197, guid: b9ff2ae65e4dd044cb068017c0d07d6d, type: 3}
+      propertyPath: m_Radius
+      value: 40.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6167804144520762197, guid: b9ff2ae65e4dd044cb068017c0d07d6d, type: 3}
       propertyPath: m_Center.x
-      value: -2.62
+      value: 4.9
       objectReference: {fileID: 0}
     - target: {fileID: 6167804144520762197, guid: b9ff2ae65e4dd044cb068017c0d07d6d, type: 3}
       propertyPath: m_Center.y
-      value: -22.07
+      value: -18.15
       objectReference: {fileID: 0}
     - target: {fileID: 6167804144520762197, guid: b9ff2ae65e4dd044cb068017c0d07d6d, type: 3}
       propertyPath: m_Center.z
-      value: 2.9
+      value: 7.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -1661,3 +1717,5 @@ SceneRoots:
   - {fileID: 866604477}
   - {fileID: 1176162806}
   - {fileID: 528203213}
+  - {fileID: 1629284851}
+  - {fileID: 931944675}

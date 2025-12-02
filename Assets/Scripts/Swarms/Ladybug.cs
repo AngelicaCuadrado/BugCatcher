@@ -8,6 +8,20 @@ public class Ladybug : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         controller = (LadybugFlockController)GameObject.FindGameObjectWithTag("LadybugFlockController").GetComponent("LadybugFlockController");
+
+        if (controller == null)
+        {
+            GameObject controllerObj = GameObject.FindGameObjectWithTag("LadybugFlockController");
+            if (controllerObj != null)
+            {
+                controller = controllerObj.GetComponent<LadybugFlockController>();
+            }
+        }
+
+        if (controller != null)
+        {
+            controller.AddToFlock(this);
+        }
     }
     void Update()
     {
@@ -74,5 +88,14 @@ public class Ladybug : MonoBehaviour
         + controller.followWeight * follow
         + controller.randomizeWeight * randomize
         );
+    }
+
+
+    private void OnDestroy()
+    {
+        if (controller != null)
+        {
+            controller.RemoveFromFlock(this);
+        }
     }
 }
