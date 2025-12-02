@@ -50,7 +50,7 @@ MonoBehaviour:
   centerWeight: 3
   velocityWeight: 4
   separationWeight: 1
-  followWeight: 4
+  followWeight: 1
   randomizeWeight: 1
   beePrefab: {fileID: 7755733187528749066, guid: 7852d5d1e4c01974f8bf12170093924e, type: 3}
   target: {fileID: 0}
