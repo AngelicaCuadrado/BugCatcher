@@ -25,7 +25,7 @@ public class BeeFlockController : MonoBehaviour
     void Start()
     {
         fsm = new SwarmFSM();
-        flockSize = (int)Random.Range(1, flockSize);
+        flockSize = (int)Random.Range(1, flockSize +1);
         player = FindFirstObjectByType<PlayerHealth>().gameObject;
         target = transform;
         for (int i = 0; i < flockSize; i++)

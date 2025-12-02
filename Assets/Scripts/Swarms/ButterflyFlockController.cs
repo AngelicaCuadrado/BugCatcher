@@ -19,13 +19,19 @@ public class ButterflyFlockController : MonoBehaviour
 
     public SwarmFSM fsm;
 
+    private Transform evadeTarget;
+
 
     public GameObject player;
     public float agroRange = 2f;
     void Start()
     {
+        evadeTarget = new GameObject("EvadeTarget").transform;
+        evadeTarget.parent = transform;
+        evadeTarget.position = transform.position;
+
         fsm = new SwarmFSM();
-        flockSize = Random.Range(1, flockSize);
+        flockSize = Random.Range(1, flockSize + 1);
         player = FindFirstObjectByType<PlayerHealth>().gameObject;
         target = transform;
         for (int i = 0; i < flockSize; i++)
@@ -37,22 +43,39 @@ public class ButterflyFlockController : MonoBehaviour
         }
 
         //States
-        //Chase
+        //Evade
         var evadeState = fsm.CreateState("Evade");
         evadeState.onEnter = delegate
         {
-            target = player.transform;
+            Vector3 dir = transform.position - player.transform.position;
+            dir.y = 0f;
+            dir = dir.normalized;
+
+            evadeTarget.position = transform.position + dir * agroRange * 2f;
+
+            evadeTarget.position = new Vector3(evadeTarget.position.x, transform.position.y, evadeTarget.position.z);
+
+            target = evadeTarget;
         };
 
         evadeState.onStay = delegate
         {
-            target = player.transform;
+            Vector3 dir = transform.position - player.transform.position;
+            dir.y = 0f;
+            dir = dir.normalized;
+
+            evadeTarget.position = transform.position + dir * agroRange * 2f;
+
+            evadeTarget.position = new Vector3(evadeTarget.position.x, transform.position.y, evadeTarget.position.z);
+
+            target = evadeTarget;
         };
 
         evadeState.onExit = delegate
         {
             target = transform;
         };
+
         //Idle
         var idleState = fsm.CreateState("Idle");
         idleState.onEnter = delegate
@@ -61,7 +84,7 @@ public class ButterflyFlockController : MonoBehaviour
 
         idleState.onStay = delegate
         {
-
+            transform.position = Vector3.Lerp(transform.position, flockCenter, Time.deltaTime * 0.5f);
         };
 
         idleState.onExit = delegate
@@ -76,6 +99,8 @@ public class ButterflyFlockController : MonoBehaviour
 
     void Update()
     {
+        fsm.Update();
+
         Vector3 center = Vector3.zero;
         Vector3 velocity = Vector3.zero;
         foreach (Butterfly butterfly in flockList)

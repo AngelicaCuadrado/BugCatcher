@@ -27,19 +27,41 @@ public class Butterfly : MonoBehaviour
                 rigidbody.linearVelocity = rigidbody.linearVelocity.normalized *
                 controller.minVelocity;
             }
+
+            if (transform.position.y < 0f)
+            {
+                Vector3 pos = transform.position;
+                pos.y = 0f;
+                transform.position = pos;
+
+
+                if (rigidbody.linearVelocity.y < 0f)
+                    rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
+            }
+
+            if (transform.position.y > 2f)
+            {
+                Vector3 pos = transform.position;
+                pos.y = 2f;
+                transform.position = pos;
+
+
+                if (rigidbody.linearVelocity.y > 0f)
+                    rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
+            }
         }
     }
     private Vector3 Steer()
     {
-        Vector3 center = controller.flockCenter - transform.localPosition;
+        Vector3 center = controller.flockCenter - transform.position;
         Vector3 velocity = controller.flockVelocity - rigidbody.linearVelocity;
-        Vector3 follow = controller.target.localPosition - transform.localPosition;
+        Vector3 follow = controller.target.position - transform.position;
         Vector3 separation = Vector3.zero;
         foreach (Butterfly butterfly in controller.flockList)
         {
             if (butterfly != this)
             {
-                Vector3 relativePos = transform.localPosition - butterfly.transform.localPosition;
+                Vector3 relativePos = transform.position - butterfly.transform.position;
                 separation += relativePos.normalized;
             }
         }
