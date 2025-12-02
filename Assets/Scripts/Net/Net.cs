@@ -34,11 +34,5 @@ public class Net : MonoBehaviour
             Destroy(ladybug.gameObject);
             return;
         }
-
-        // If you still want a generic catch-all:
-        // if (other.CompareTag("FriendlyBug"))
-        // {
-        //     Destroy(other.gameObject);
-        // }
     }
 }

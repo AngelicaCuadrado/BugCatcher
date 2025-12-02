@@ -53,7 +53,6 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log($"[PlayerHealth] Healed {amount} → {CurrentHealth}/{maxHealth}");
         }
     }
-
     private void Die()
     {
         if (printDebug)
@@ -61,8 +60,10 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("[PlayerHealth] Player died");
         }
 
-        // Simple behaviour: reload the current level
+        // Go to a dedicated Lose Screen instead of reloading the level
         Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.buildIndex);
+        Debug.Log($"[PlayerHealth] Loading LoseScreen from {currentScene.name}");
+        SceneManager.LoadScene("LoseScreen");  // Make sure this scene is in Build Settings
     }
+
 }
