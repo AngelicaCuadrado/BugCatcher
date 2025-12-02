@@ -6,11 +6,11 @@ public class Bee : MonoBehaviour
     private new Rigidbody rigidbody;
 
     [SerializeField]
-    float damage;
+    int damage;
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        controller = (BeeFlockController)GameObject.FindGameObjectWithTag("BeeFlockController").GetComponent("FlockController2");
+        controller = (BeeFlockController)GameObject.FindGameObjectWithTag("BeeFlockController").GetComponent("BeeFlockController");
     }
     void Update()
     {
@@ -60,5 +60,10 @@ public class Bee : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         //damage player
+        if (other.GetComponent<PlayerHealth>()) 
+        {
+            PlayerHealth player = other.GetComponent<PlayerHealth>();
+            player.TakeDamage(damage);
+        }
     }
 }

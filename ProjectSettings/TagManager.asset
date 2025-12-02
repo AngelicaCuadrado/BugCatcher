@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FriendlyBug
   - HostileBug
+  - BeeFlockController
   layers:
   - Default
   - TransparentFX

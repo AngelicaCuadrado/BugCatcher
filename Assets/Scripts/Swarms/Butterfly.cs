@@ -35,11 +35,11 @@ public class Butterfly : MonoBehaviour
         Vector3 velocity = controller.flockVelocity - rigidbody.linearVelocity;
         Vector3 follow = controller.target.localPosition - transform.localPosition;
         Vector3 separation = Vector3.zero;
-        foreach (Boid2 boid2 in controller.flockList)
+        foreach (Butterfly butterfly in controller.flockList)
         {
-            if (boid2 != this)
+            if (butterfly != this)
             {
-                Vector3 relativePos = transform.localPosition - boid2.transform.localPosition;
+                Vector3 relativePos = transform.localPosition - butterfly.transform.localPosition;
                 separation += relativePos.normalized;
             }
         }
