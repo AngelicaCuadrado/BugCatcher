@@ -40,12 +40,12 @@ public class EnemyChaseState : EnemyBaseState
         }
 
         // Close enough  attack
-        if (distanceToPlayer <= enemy.attackRange)
-        {
-            enemy.agent.ResetPath();
-            enemy.SwitchState(enemy.attackingState);
-            return;
-        }
+        //if (distanceToPlayer <= enemy.attackRange)
+        //{
+        //    enemy.agent.ResetPath();
+        //    enemy.SwitchState(enemy.attackingState);
+        //    return;
+        //}
 
         // Otherwise, chase via NavMesh
         enemy.agent.SetDestination(enemy.player.position);

@@ -13,7 +13,7 @@ public class EnemyStateManager : MonoBehaviour
     EnemyBaseState currentState;
     public EnemyIdleState idleState = new EnemyIdleState();
     public EnemyPatrolState patrolState = new EnemyPatrolState();
-    public EnemyAttackingState attackingState = new EnemyAttackingState();
+    //public EnemyAttackingState attackingState = new EnemyAttackingState();
     public EnemyChaseState chaseState = new EnemyChaseState();
     public EnemyDeadState deadState = new EnemyDeadState();
     public EnemySenseState senseState = new EnemySenseState();
