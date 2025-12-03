@@ -1,0 +1,154 @@
+/* Main Container - Full Screen Overlay */
+.screen-container {
+    flex-grow: 1;
+    /* Deep Moss Green semi-transparent */
+    background-color: rgba(47, 79, 79, 0.95); 
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+}
+
+/* Header Text */
+.header-title {
+    font-size: 52px;
+    /* Soft Yellow/Cream */
+    color: rgb(255, 250, 205); 
+    -unity-font-style: bold;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    /* REMOVED text-transform to fix warning */
+    /* text-shadow: 2px 2px 0px rgba(0,0,0,0.5); Optional cute shadow */
+}
+
+/* Grid Container for Controls - The "Journal Page" */
+.controls-grid {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    /* Parchment / Cream color */
+    background-color: rgb(253, 246, 227); 
+    /* Rounded corners for cute factor */
+    border-radius: 30px; 
+    padding: 25px;
+    /* Thick playful border - Saddle Brown */
+    border-width: 6px;
+    border-color: rgb(139, 69, 19); 
+}
+
+/* Individual Row */
+.control-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom-width: 2px;
+    /* Soft brown divider line */
+    border-bottom-color: rgba(139, 69, 19, 0.2); 
+}
+
+.action-label {
+    font-size: 24px;
+    /* Dark Earth Brown text */
+    color: rgb(60, 40, 10); 
+    width: 40%;
+    -unity-font-style: bold;
+}
+
+/* Container for the keys on the right side */
+.inputs-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: 60%;
+}
+
+/* The visual style of a "Key" - White with Green Shadow */
+.key-cap {
+    background-color: rgb(255, 255, 255);
+    /* Dark Green text */
+    color: rgb(34, 139, 34); 
+    border-radius: 12px; /* Very rounded keys */
+    padding: 8px 16px;
+    font-size: 18px;
+    -unity-font-style: bold;
+    margin-left: 10px;
+    border-bottom-width: 5px;
+    /* Leaf Green shadow */
+    border-bottom-color: rgb(107, 142, 35); 
+}
+
+/* Gamepad prompts - Wood/Tan style */
+.gamepad-cap {
+    /* Tan / Wood color */
+    background-color: rgb(222, 184, 135); 
+    /* Dark Brown text */
+    color: rgb(101, 67, 33); 
+    /* Saddle Brown shadow */
+    border-bottom-color: rgb(139, 69, 19); 
+}
+
+.separator {
+    color: rgb(139, 69, 19); /* Brown separator */
+    font-size: 18px;
+    margin-left: 10px;
+    -unity-font-style: bold;
+}
+
+    /* A narrower panel for menus */
+.menu-panel {
+    width: 40%;
+    align-items: stretch; /* Stretch buttons to fill width */
+    background-color: rgb(253, 246, 227); 
+    border-radius: 30px; 
+    padding: 30px;
+    border-width: 6px;
+    border-color: rgb(139, 69, 19);
+}
+
+/* Base Button Style - Looks like a wooden plank */
+.menu-button {
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: rgb(101, 67, 33); /* Dark Wood Text */
+    background-color: rgb(222, 184, 135); /* Tan/Wood */
+    
+    border-radius: 15px;
+    border-width: 0px; /* No standard border */
+    border-bottom-width: 8px; /* Thick 3D shadow */
+    border-bottom-color: rgb(139, 69, 19); /* Saddle Brown */
+    
+    padding: 15px;
+    margin-bottom: 20px;
+    transition-duration: 0.1s;
+}
+
+/* Hover State - Slightly lighter */
+.menu-button:hover {
+    background-color: rgb(240, 200, 150);
+    scale: 1.02;
+}
+
+/* Click/Active State - "Squishes" down */
+.menu-button:active {
+    background-color: rgb(200, 160, 110);
+    border-bottom-width: 0px; /* Remove shadow to look pressed */
+    margin-top: 8px; /* Move down to compensate */
+    margin-bottom: 12px;
+}
+
+/* Special Color for "Exit" or "Negative" buttons (Reddish) */
+.danger-button {
+    background-color: rgb(205, 92, 92); /* Indian Red */
+    color: rgb(255, 240, 240);
+    border-bottom-color: rgb(139, 0, 0); /* Dark Red Shadow */
+}
+
+.danger-button:hover {
+    background-color: rgb(230, 100, 100);
+}
+
+.danger-button:active {
+    background-color: rgb(180, 70, 70);
+}

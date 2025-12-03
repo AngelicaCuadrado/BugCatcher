@@ -9,6 +9,8 @@ TagManager:
   - BeeFlockController
   - ButterflyFlockController
   - LadybugFlockController
+  - ControlsUI
+  - MainUI
   layers:
   - Default
   - TransparentFX
