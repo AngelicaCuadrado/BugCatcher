@@ -1,45 +1,64 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro; // Use TextMeshProUGUI for nice UI text
+using TMPro;
 
 public class BugTracker : MonoBehaviour
 {
-    [Header("Bug Requirements")]
-    public int butterflyRequirement = 5;
-    public int ladybugRequirment = 5;
+    public static BugTracker Instance { get; private set; }
 
-    [Header("Current Counts (read-only at runtime)")]
-    public int currentButterflies;
-    public int currentLadybugs;
+    [Header("Targets")]
+    [SerializeField] private int requiredLadybugs = 3;
+    [SerializeField] private int requiredButterflies = 5;
+    [Tooltip("If true, counts will be clamped to the required values (won't exceed).")]
+    [SerializeField] private bool clampToRequired = false;
 
     [Header("Scoring")]
-    public int scorePerButterfly = 10;
-    public int scorePerLadybug = 15;
-    public int winBonus = 100;
+    [SerializeField] private int scorePerButterfly = 10;
+    [SerializeField] private int scorePerLadybug = 15;
+    [SerializeField] private int winBonus = 100;
     public int CurrentScore { get; private set; }
 
     [Header("Timer")]
     [Tooltip("Total time for the level in seconds")]
-    public float levelTime = 60f;
-
+    [SerializeField] private float levelTime = 60f;
     private float remainingTime;
     private bool levelEnded = false;
 
     [Header("UI (Optional)")]
-    public TMP_Text scoreText;
-    public TMP_Text timerText;
+    [SerializeField] private TMP_Text ladybugText;      // shows "current / required"
+    [SerializeField] private TMP_Text butterflyText;    // shows "current / required"
+    [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text timerText;
+
+    [Header("Scene Names")]
+    [SerializeField] private string winSceneName = "WinScreen";
+    [SerializeField] private string loseSceneName = "LoseScreen";
+
+    // Internal counts
+    private int currentLadybugs;
+    private int currentButterflies;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     private void Start()
     {
-        // Reset counters
-        currentButterflies = 0;
+        // Initialize
         currentLadybugs = 0;
+        currentButterflies = 0;
         CurrentScore = 0;
 
         remainingTime = levelTime;
         levelEnded = false;
 
-        UpdateScoreUI();
+        UpdateUI();
         UpdateTimerUI();
 
         Debug.Log($"[BugTracker] Level started. Time: {levelTime} seconds");
@@ -49,52 +68,73 @@ public class BugTracker : MonoBehaviour
     {
         if (levelEnded) return;
 
-        // --- TIMER ---
+        // Timer
         remainingTime -= Time.deltaTime;
         if (remainingTime <= 0f)
         {
             remainingTime = 0f;
             UpdateTimerUI();
-            TimeUpLose();   // Lose when time runs out
+            TimeUpLose();
             return;
         }
 
         UpdateTimerUI();
     }
 
-    // Called by Net when catching a butterfly
+    // Public API: both names supported for compatibility
+
+    // Called by Net or other systems when catching a butterfly
     public void RegisterButterflyCaught()
     {
-        if (levelEnded) return;
-
-        currentButterflies++;
-        CurrentScore += scorePerButterfly;
-
-        Debug.Log($"[BugTracker] Butterflies: {currentButterflies}/{butterflyRequirement}");
-        UpdateScoreUI();
-        CheckWinCondition();
+        AddButterfly(1);
     }
 
-    // Called by Net when catching a ladybug
+    // Called by Net or other systems when catching a ladybug
     public void RegisterLadybugCaught()
+    {
+        AddLadybug(1);
+    }
+
+    // Call this when a ladybug is collected
+    public void AddLadybug(int amount = 1)
     {
         if (levelEnded) return;
 
-        currentLadybugs++;
-        CurrentScore += scorePerLadybug;
+        int newCount = currentLadybugs + amount;
+        if (clampToRequired)
+            currentLadybugs = Mathf.Clamp(newCount, 0, requiredLadybugs);
+        else
+            currentLadybugs = Mathf.Max(0, newCount);
 
-        Debug.Log($"[BugTracker] Ladybugs: {currentLadybugs}/{ladybugRequirment}");
-        UpdateScoreUI();
+        CurrentScore += scorePerLadybug * amount;
+
+        Debug.Log($"[BugTracker] Ladybugs: {currentLadybugs}/{requiredLadybugs}");
+        UpdateUI();
         CheckWinCondition();
     }
 
-    // ---------- WIN / LOSE LOGIC ----------
+    // Call this when a butterfly is collected
+    public void AddButterfly(int amount = 1)
+    {
+        if (levelEnded) return;
+
+        int newCount = currentButterflies + amount;
+        if (clampToRequired)
+            currentButterflies = Mathf.Clamp(newCount, 0, requiredButterflies);
+        else
+            currentButterflies = Mathf.Max(0, newCount);
+
+        CurrentScore += scorePerButterfly * amount;
+
+        Debug.Log($"[BugTracker] Butterflies: {currentButterflies}/{requiredButterflies}");
+        UpdateUI();
+        CheckWinCondition();
+    }
 
     private void CheckWinCondition()
     {
-        // Win when required # of each bug is collected
-        if (currentButterflies >= butterflyRequirement &&
-            currentLadybugs >= ladybugRequirment)
+        if (currentButterflies >= requiredButterflies &&
+            currentLadybugs >= requiredLadybugs)
         {
             LevelWon();
         }
@@ -106,10 +146,11 @@ public class BugTracker : MonoBehaviour
         levelEnded = true;
 
         CurrentScore += winBonus;
-        UpdateScoreUI();
+        UpdateUI();
 
         Debug.Log("[BugTracker] WIN! All required bugs caught.");
-        SceneManager.LoadScene("WinScreen");   // <--- Name of your Win scene
+        if (!string.IsNullOrEmpty(winSceneName))
+            SceneManager.LoadScene(winSceneName);
     }
 
     private void TimeUpLose()
@@ -118,17 +159,20 @@ public class BugTracker : MonoBehaviour
         levelEnded = true;
 
         Debug.Log("[BugTracker] LOSE! Time is up.");
-        SceneManager.LoadScene("LoseScreen");  // <--- Name of your Lose scene
+        if (!string.IsNullOrEmpty(loseSceneName))
+            SceneManager.LoadScene(loseSceneName);
     }
 
-    // ---------- UI HELPERS ----------
-
-    private void UpdateScoreUI()
+    private void UpdateUI()
     {
+        if (ladybugText != null)
+            ladybugText.text = $"{currentLadybugs}/{requiredLadybugs}";
+
+        if (butterflyText != null)
+            butterflyText.text = $"{currentButterflies}/{requiredButterflies}";
+
         if (scoreText != null)
-        {
             scoreText.text = $"{CurrentScore}";
-        }
     }
 
     private void UpdateTimerUI()
@@ -141,4 +185,10 @@ public class BugTracker : MonoBehaviour
 
         timerText.text = $"{minutes:00}:{seconds:00}";
     }
+
+    // Optional getters
+    public int CurrentLadybugs => currentLadybugs;
+    public int CurrentButterflies => currentButterflies;
+    public int RequiredLadybugs => requiredLadybugs;
+    public int RequiredButterflies => requiredButterflies;
 }
