@@ -1,0 +1,13 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/_UIs/TutorialScreen.uss?fileID=7433441132597879392&amp;guid=6159f81145f0195428bf25eebd2e13a1&amp;type=3#TutorialScreen" />
+    <engine:VisualElement name="Root" class="screen-container">
+        <engine:Label text="BUG CATCHER" class="header-title" style="font-size: 80px; margin-bottom: 60px; color: rgb(255, 220, 100);" />
+        <engine:VisualElement class="menu-panel">
+            <engine:Button name="BtnStart" text="Start Game" class="menu-button" />
+            <engine:Button name="BtnOptions" text="Options" class="menu-button" />
+            <engine:Button name="BtnControls" text="Controls" class="menu-button" />
+            <engine:Button name="BtnExit" text="Exit" class="menu-button danger-button" />
+        </engine:VisualElement>
+        <engine:Label text="v1.0" style="position: absolute; bottom: 20px; right: 20px; color: rgba(255, 255, 255, 0.5);" />
+    </engine:VisualElement>
+</engine:UXML>
