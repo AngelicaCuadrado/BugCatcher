@@ -1,0 +1,67 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/_UIs/TutorialScreen.uss?fileID=7433441132597879392&amp;guid=6159f81145f0195428bf25eebd2e13a1&amp;type=3#TutorialScreen" />
+    <engine:VisualElement name="Root" class="screen-container">
+        <engine:Label text="CONTROLS" class="header-title" />
+        <engine:VisualElement class="controls-grid">
+            <engine:VisualElement class="control-row">
+                <engine:Label text="Movement" class="action-label" />
+                <engine:VisualElement class="inputs-container">
+                    <engine:Label text="WASD" class="key-cap" />
+                    <engine:Label text="/" class="separator" />
+                    <engine:Label text="L-Stick" class="key-cap gamepad-cap" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement class="control-row">
+                <engine:Label text="Jump" class="action-label" />
+                <engine:VisualElement class="inputs-container">
+                    <engine:Label text="Space" class="key-cap" />
+                    <engine:Label text="/" class="separator" />
+                    <engine:Label text="Btn South" class="key-cap gamepad-cap" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement class="control-row">
+                <engine:Label text="Crouch" class="action-label" />
+                <engine:VisualElement class="inputs-container">
+                    <engine:Label text="C" class="key-cap" />
+                    <engine:Label text="/" class="separator" />
+                    <engine:Label text="Btn East" class="key-cap gamepad-cap" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement class="control-row">
+                <engine:Label text="Sprint" class="action-label" />
+                <engine:VisualElement class="inputs-container">
+                    <engine:Label text="L-Shift" class="key-cap" />
+                    <engine:Label text="/" class="separator" />
+                    <engine:Label text="L3" class="key-cap gamepad-cap" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement class="control-row">
+                <engine:Label text="Attack" class="action-label" />
+                <engine:VisualElement class="inputs-container">
+                    <engine:Label text="L-Click" class="key-cap" />
+                    <engine:Label text="Enter" class="key-cap" />
+                    <engine:Label text="/" class="separator" />
+                    <engine:Label text="Btn West" class="key-cap gamepad-cap" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement class="control-row">
+                <engine:Label text="Interact" class="action-label" />
+                <engine:VisualElement class="inputs-container">
+                    <engine:Label text="E" class="key-cap" />
+                    <engine:Label text="/" class="separator" />
+                    <engine:Label text="Btn North" class="key-cap gamepad-cap" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement class="control-row" style="border-bottom-width: 0;">
+                <engine:Label text="Cycle Items" class="action-label" />
+                <engine:VisualElement class="inputs-container">
+                    <engine:Label text="1" class="key-cap" />
+                    <engine:Label text="2" class="key-cap" />
+                    <engine:Label text="/" class="separator" />
+                    <engine:Label text="D-Pad" class="key-cap gamepad-cap" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:Label text="Press ANY KEY to Close" style="margin-top: 30px; color: grey; font-size: 18px;" />
+    </engine:VisualElement>
+</engine:UXML>
