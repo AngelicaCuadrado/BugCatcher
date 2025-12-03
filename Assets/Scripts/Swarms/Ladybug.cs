@@ -2,15 +2,36 @@ using UnityEngine;
 
 public class Ladybug : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    internal LadybugFlockController controller;
+
     void Start()
     {
-        
+        // Find controller by tag if not already assigned
+        if (controller == null)
+        {
+            GameObject controllerObj = GameObject.FindGameObjectWithTag("LadybugFlockController");
+            if (controllerObj != null)
+            {
+                controller = controllerObj.GetComponent<LadybugFlockController>();
+            }
+        }
+
+        if (controller != null)
+        {
+            controller.AddToFlock(this);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // Add movement/flocking here later if needed
+    }
+
+    private void OnDestroy()
+    {
+        if (controller != null)
+        {
+            controller.RemoveFromFlock(this);
+        }
     }
 }
