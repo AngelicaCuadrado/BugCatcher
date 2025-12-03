@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: c702044e8b7b7de4d96c5af2d585d4d4
-AssetOrigin:
-  serializedVersion: 1
-  productId: 236418
-  packageName: fantasy spiders
-  packageVersion: 1.0
-  assetPath: Assets/Spiders/Models/Spider.fbx
-  uploadId: 535463
+guid: ba65465855329834abdf2d5d3ebcf076
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:

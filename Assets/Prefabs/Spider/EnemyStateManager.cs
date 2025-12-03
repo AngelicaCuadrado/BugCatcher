@@ -6,7 +6,7 @@ public class EnemyStateManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    
+    [HideInInspector]
     public Transform player;
 
     // declare states
@@ -134,6 +134,14 @@ public class EnemyStateManager : MonoBehaviour
 
 
         SwitchState(deadState);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (currentState != null)
+        {
+            currentState.OnColliderEnter(this, other);
+        }
     }
 
 }
