@@ -133,10 +133,12 @@ public class BugTracker : MonoBehaviour
 
     private void UpdateTimerUI()
     {
-        if (timerText != null)
-        {
-            int seconds = Mathf.CeilToInt(remainingTime);
-            timerText.text = $"{seconds}";
-        }
+        if (timerText == null) return;
+
+        int totalSeconds = Mathf.CeilToInt(Mathf.Max(0f, remainingTime));
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+
+        timerText.text = $"{minutes:00}:{seconds:00}";
     }
 }
