@@ -8,17 +8,6 @@ public class Butterfly : MonoBehaviour
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-
-        // Find controller by tag if not already assigned
-        if (controller == null)
-        {
-            GameObject controllerObj = GameObject.FindGameObjectWithTag("ButterflyFlockController");
-            if (controllerObj != null)
-            {
-                controller = controllerObj.GetComponent<ButterflyFlockController>();
-            }
-        }
-
         // Make sure this butterfly is registered in the flock list
         if (controller != null)
         {
@@ -46,10 +35,10 @@ public class Butterfly : MonoBehaviour
         }
 
         // Clamp height (same as your original logic)
-        if (transform.position.y < 0f)
+        if (transform.position.y < 1f)
         {
             Vector3 pos = transform.position;
-            pos.y = 0f;
+            pos.y = 1f;
             transform.position = pos;
 
             if (rigidbody.linearVelocity.y < 0f)

@@ -1,0 +1,11 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/_UIs/TutorialScreen.uss?fileID=7433441132597879392&amp;guid=6159f81145f0195428bf25eebd2e13a1&amp;type=3#TutorialScreen" />
+    <engine:VisualElement name="Root" class="screen-container" style="background-color: rgba(0, 0, 0, 0.6);">
+        <engine:Label text="PAUSED" class="header-title" />
+        <engine:VisualElement class="menu-panel" style="width: 30%;">
+            <engine:Button name="BtnResume" text="Resume" class="menu-button" />
+            <engine:Button name="BtnOptions" text="Options" class="menu-button" />
+            <engine:Button name="BtnQuit" text="Quit to Title" class="menu-button danger-button" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
