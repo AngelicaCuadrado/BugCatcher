@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minVelocity: 4
   maxVelocity: 16
-  flockSize: 8
+  flockSize: 10
   centerWeight: 1
   velocityWeight: 1
   separationWeight: 1
@@ -55,5 +55,6 @@ MonoBehaviour:
   butterflyPrefab: {fileID: 5097857604333653912, guid: e21257506bba8ae43a252c6178d8b4f5, type: 3}
   target: {fileID: 0}
   flockCenter: {x: 0, y: 0, z: 0}
+  flockList: []
   player: {fileID: 0}
   agroRange: 3

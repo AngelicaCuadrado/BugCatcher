@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 
@@ -54,13 +54,19 @@ public class EnemyStateManager : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
-        patrolPoint = transform.position;
+        // Disable automatic rotation so we can control visual facing
+        if (agent != null)
+        {
+            agent.updateRotation = false;
+            agent.updatePosition = true;
+            agent.speed = patrolSpeed;
+            agent.stoppingDistance = attackRange;
+        }
 
-        agent.speed = patrolSpeed;
-        agent.stoppingDistance = attackRange;
+        patrolPoint = transform.position;
         currentHealth = maxHealth;
 
-        //Autoassign player if not set in Inspector
+        // Autoassign player if not set in Inspector
         if (player == null)
         {
             GameObject p = GameObject.FindGameObjectWithTag("Player");
@@ -73,7 +79,6 @@ public class EnemyStateManager : MonoBehaviour
                 Debug.LogWarning($"[{name}] No object with tag 'Player' found. Enemy will not chase.");
             }
         }
-
     }
     void Start()
     {
@@ -84,7 +89,22 @@ public class EnemyStateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // State logic
         currentState.UpdateState(this);
+
+        // Smoothly rotate to face movement direction (when using NavMeshAgent.updateRotation = false)
+        if (agent != null)
+        {
+            Vector3 vel = agent.velocity;
+            vel.y = 0f;
+
+            if (vel.sqrMagnitude > 0.01f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(vel.normalized, Vector3.up);
+                float rotSpeed = 10f; // adjust for faster/slower turning
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
+            }
+        }
     }
     public void SwitchState(EnemyBaseState state)
     {

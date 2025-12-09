@@ -52,13 +52,4 @@ public class BugSpawner : MonoBehaviour
             }
         }
     }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, spawnRadius);
-
-        Vector3 up = Vector3.up;
-        UnityEditor.Handles.color = new Color(0f, 1f, 0f, 0.2f);
-        UnityEditor.Handles.DrawSolidDisc(transform.position, up, spawnRadius);
-    }
 }

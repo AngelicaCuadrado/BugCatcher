@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minVelocity: 1
   maxVelocity: 8
-  flockSize: 5
+  flockSize: 10
   centerWeight: 1
   velocityWeight: 1
   separationWeight: 1
