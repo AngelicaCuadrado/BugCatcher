@@ -7,16 +7,19 @@ namespace Supercyan.FreeSample
     {
         private enum ControlMode
         {
-            /// <summary>
-            /// Up moves the character forward, left and right turn the character gradually and down moves the character backwards
-            /// </summary>
             Tank,
-            /// <summary>
-            /// Character freely moves in the chosen direction from the perspective of the camera
-            /// </summary>
             Direct
         }
 
+        [Header("Audio Channels")]
+        [SerializeField] private AudioSource m_feetAudioSource;
+        [SerializeField] private AudioSource m_sfxAudioSource;
+
+        [Header("Audio Clips")]
+        [SerializeField] private AudioClip m_walkClip;
+        [SerializeField] private AudioClip m_jumpClip;
+
+        [Header("Movement Settings")]
         [SerializeField] private float m_moveSpeed = 2;
         [SerializeField] private float m_turnSpeed = 200;
         [SerializeField] private float m_jumpForce = 4;
@@ -48,7 +51,14 @@ namespace Supercyan.FreeSample
         private void Awake()
         {
             if (!m_animator) { gameObject.GetComponent<Animator>(); }
-            if (!m_rigidBody) { gameObject.GetComponent<Animator>(); }
+            if (!m_rigidBody) { gameObject.GetComponent<Rigidbody>(); }
+            if (m_feetAudioSource == null) m_feetAudioSource = GetComponent<AudioSource>();
+            if (m_sfxAudioSource == null)
+            {
+                AudioSource[] sources = GetComponents<AudioSource>();
+                if (sources.Length > 1) m_sfxAudioSource = sources[1];
+                else m_sfxAudioSource = sources[0]; 
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -142,14 +152,15 @@ namespace Supercyan.FreeSample
             float v = Input.GetAxis("Vertical");
             float h = Input.GetAxis("Horizontal");
 
-            bool walk = Input.GetKey(KeyCode.LeftShift);
+            bool run = Input.GetKey(KeyCode.LeftShift);
+            HandleFootstepAudio(v, h, run);
 
             if (v < 0)
             {
-                if (walk) { v *= m_backwardsWalkScale; }
+                if (run) { v *= m_backwardsWalkScale; }
                 else { v *= m_backwardRunScale; }
             }
-            else if (walk)
+            else if (run)
             {
                 v *= m_walkScale;
             }
@@ -171,8 +182,10 @@ namespace Supercyan.FreeSample
             float h = Input.GetAxis("Horizontal");
 
             Transform camera = Camera.main.transform;
+            bool run = Input.GetKey(KeyCode.LeftShift);
+            HandleFootstepAudio(v, h, run);
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (run)
             {
                 v *= m_walkScale;
                 h *= m_walkScale;
@@ -208,6 +221,34 @@ namespace Supercyan.FreeSample
             {
                 m_jumpTimeStamp = Time.time;
                 m_rigidBody.AddForce(Vector3.up * m_jumpForce, ForceMode.Impulse);
+                if (m_sfxAudioSource && m_jumpClip)
+                {
+                    m_sfxAudioSource.PlayOneShot(m_jumpClip);
+                }
+            }
+        }
+
+        private void HandleFootstepAudio(float v, float h, bool isRunning)
+        {
+            if (m_feetAudioSource == null || m_walkClip == null) return;
+            bool isMoving = (Mathf.Abs(v) > 0.1f || Mathf.Abs(h) > 0.1f);
+            if (isMoving && m_isGrounded)
+            {
+                m_feetAudioSource.pitch = isRunning ? 2.0f : 1.0f;
+
+                if (!m_feetAudioSource.isPlaying)
+                {
+                    m_feetAudioSource.clip = m_walkClip;
+                    m_feetAudioSource.loop = true;
+                    m_feetAudioSource.Play();
+                }
+            }
+            else
+            {
+                if (m_feetAudioSource.isPlaying)
+                {
+                    m_feetAudioSource.Stop();
+                }
             }
         }
     }
