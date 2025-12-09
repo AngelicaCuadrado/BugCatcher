@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: f3a213ef76a772a4c8e63ba267e2388b
+guid: 85d037db6b0bf5f498fa77926edb2a1c
 NativeFormatImporter:
   externalObjects: {}
-  mainObjectFileID: 7400000
+  mainObjectFileID: 2100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -11,5 +11,5 @@ AssetOrigin:
   productId: 221108
   packageName: Spider polygon
   packageVersion: 1.0
-  assetPath: Assets/Spiders/Animations/Death.anim
+  assetPath: Assets/Spiders/Materials/Spider.mat
   uploadId: 500411

@@ -1,8 +1,7 @@
 fileFormatVersion: 2
-guid: f3a213ef76a772a4c8e63ba267e2388b
-NativeFormatImporter:
+guid: e42dce10de392fb46b7cf553d7658cf4
+PrefabImporter:
   externalObjects: {}
-  mainObjectFileID: 7400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -11,5 +10,5 @@ AssetOrigin:
   productId: 221108
   packageName: Spider polygon
   packageVersion: 1.0
-  assetPath: Assets/Spiders/Animations/Death.anim
+  assetPath: Assets/Spiders/Prefabs/spider_black.prefab
   uploadId: 500411
