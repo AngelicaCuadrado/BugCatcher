@@ -61,11 +61,15 @@ public class EnemyStateManager : MonoBehaviour
     public NavMeshAgent agent;
 
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip attackOne;
+    [SerializeField] private AudioClip attackTwo;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        audioSource = GetComponent<AudioSource>();
 
         // Disable automatic rotation so we can control visual facing
         if (agent != null)
@@ -179,6 +183,7 @@ public class EnemyStateManager : MonoBehaviour
 
     public void Animation_ShootProjectile()
     {
+        
         if (projectilePrefab == null || projectileSpawnPoint == null)
         {
             Debug.LogWarning($"{name}: Projectile prefab or spawn point not assigned.");
@@ -200,6 +205,8 @@ public class EnemyStateManager : MonoBehaviour
         dir = dir.normalized;
 
         StartCoroutine(ProjectileCobwebRoutine(proj.transform, dir));
+
+        audioSource.PlayOneShot(attackOne);
     }
 
     private System.Collections.IEnumerator ProjectileCobwebRoutine(Transform projectile, Vector3 direction)

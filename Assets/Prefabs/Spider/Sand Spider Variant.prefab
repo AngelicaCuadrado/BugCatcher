@@ -124,6 +124,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9178119090847100933, guid: 3af956640595c6e4cb9436f0f4545ffd, type: 3}
+      propertyPath: attackOne
+      value: 
+      objectReference: {fileID: 8300000, guid: d3a0ff7c58e758e4593584580fa47bad, type: 3}
+    - target: {fileID: 9178119090847100933, guid: 3af956640595c6e4cb9436f0f4545ffd, type: 3}
+      propertyPath: attackTwo
+      value: 
+      objectReference: {fileID: 8300000, guid: 9878b8ceda54f3d43afc6deabdfabbf4, type: 3}
+    - target: {fileID: 9178119090847100933, guid: 3af956640595c6e4cb9436f0f4545ffd, type: 3}
       propertyPath: attackDamage
       value: 5
       objectReference: {fileID: 0}

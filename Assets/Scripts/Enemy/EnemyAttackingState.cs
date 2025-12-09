@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyAttackingState : EnemyBaseState
 {
     private bool hasDealtDamage = false; 
+    
     public override void EnterState(EnemyStateManager enemy)
     {
         Debug.Log("Entered Attacking State");
