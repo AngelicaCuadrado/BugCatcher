@@ -34,25 +34,33 @@ public class Butterfly : MonoBehaviour
             rigidbody.linearVelocity = rigidbody.linearVelocity.normalized * controller.minVelocity;
         }
 
-        // Clamp height (same as your original logic)
-        if (transform.position.y < 1f)
+        Terrain terrain = Terrain.activeTerrain;
+        if (terrain != null)
         {
-            Vector3 pos = transform.position;
-            pos.y = 1f;
-            transform.position = pos;
+            float terrainHeight = terrain.SampleHeight(transform.position) + terrain.GetPosition().y;
 
-            if (rigidbody.linearVelocity.y < 0f)
-                rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
-        }
+            float minHeight = terrainHeight + 1f;
+            float maxHeight = terrainHeight + 1.5f;
 
-        if (transform.position.y > 2f)
-        {
-            Vector3 pos = transform.position;
-            pos.y = 2f;
-            transform.position = pos;
+            if (transform.position.y < minHeight)
+            {
+                Vector3 pos = transform.position;
+                pos.y = minHeight;
+                transform.position = pos;
 
-            if (rigidbody.linearVelocity.y > 0f)
-                rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
+                if (rigidbody.linearVelocity.y < 0f)
+                    rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
+            }
+
+            if (transform.position.y > maxHeight)
+            {
+                Vector3 pos = transform.position;
+                pos.y = maxHeight;
+                transform.position = pos;
+
+                if (rigidbody.linearVelocity.y > 0f)
+                    rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
+            }
         }
     }
 
@@ -66,7 +74,6 @@ public class Butterfly : MonoBehaviour
         Vector3 follow = controller.target.position - transform.position;
         Vector3 separation = Vector3.zero;
 
-        // IMPORTANT: skip null entries and self so destroyed butterflies don't cause errors
         foreach (Butterfly butterfly in controller.flockList)
         {
             if (butterfly == null || butterfly == this)
@@ -89,7 +96,6 @@ public class Butterfly : MonoBehaviour
 
     private void OnDestroy()
     {
-        // When destroyed by the net, remove from flock to avoid MissingReferenceException
         if (controller != null)
         {
             controller.RemoveFromFlock(this);

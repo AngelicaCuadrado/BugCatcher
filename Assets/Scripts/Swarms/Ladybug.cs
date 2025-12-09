@@ -10,40 +10,46 @@ public class Ladybug : MonoBehaviour
     }
     void Update()
     {
-        if (controller)
-        {
-            Vector3 relativePos = Steer() * Time.deltaTime;
-            if (relativePos != Vector3.zero)
-                rigidbody.linearVelocity = relativePos;
-            float speed = rigidbody.linearVelocity.magnitude;
-            if (speed > controller.maxVelocity)
-            {
-                rigidbody.linearVelocity = rigidbody.linearVelocity.normalized *
-                controller.maxVelocity;
-            }
-            else if (speed < controller.minVelocity)
-            {
-                rigidbody.linearVelocity = rigidbody.linearVelocity.normalized *
-                controller.minVelocity;
-            }
+        if (controller == null)
+            return;
 
-            if (transform.position.y < 1f)
+        Vector3 relativePos = Steer() * Time.deltaTime;
+        if (relativePos != Vector3.zero)
+            rigidbody.linearVelocity = relativePos;
+
+        float speed = rigidbody.linearVelocity.magnitude;
+        if (speed > controller.maxVelocity)
+        {
+            rigidbody.linearVelocity = rigidbody.linearVelocity.normalized * controller.maxVelocity;
+        }
+        else if (speed < controller.minVelocity)
+        {
+            rigidbody.linearVelocity = rigidbody.linearVelocity.normalized * controller.minVelocity;
+        }
+
+        Terrain terrain = Terrain.activeTerrain;
+        if (terrain != null)
+        {
+            float terrainHeight = terrain.SampleHeight(transform.position) + terrain.GetPosition().y;
+
+            float minHeight = terrainHeight + 1f;
+            float maxHeight = terrainHeight + 1.5f;
+
+            if (transform.position.y < minHeight)
             {
                 Vector3 pos = transform.position;
-                pos.y = 1f;
+                pos.y = minHeight;
                 transform.position = pos;
-
 
                 if (rigidbody.linearVelocity.y < 0f)
                     rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
             }
 
-            if (transform.position.y > 2f)
+            if (transform.position.y > maxHeight)
             {
                 Vector3 pos = transform.position;
-                pos.y = 2f;
+                pos.y = maxHeight;
                 transform.position = pos;
-
 
                 if (rigidbody.linearVelocity.y > 0f)
                     rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
