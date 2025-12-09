@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LadybugFlockController : MonoBehaviour
@@ -15,7 +17,7 @@ public class LadybugFlockController : MonoBehaviour
     public Transform target;
     public Vector3 flockCenter;
     internal Vector3 flockVelocity;
-    public ArrayList flockList = new ArrayList();
+    public List<Ladybug> flockList = new List<Ladybug>();
 
     public SwarmFSM fsm;
 
@@ -101,15 +103,56 @@ public class LadybugFlockController : MonoBehaviour
     {
         fsm.Update();
 
+        if (flockList.Count == 0)
+        {
+            flockCenter = transform.position;
+            flockVelocity = Vector3.zero;
+            return;
+        }
+
         Vector3 center = Vector3.zero;
         Vector3 velocity = Vector3.zero;
-        foreach (Ladybug ladybug in flockList)
+        int aliveCount = 0;
+
+        for (int i = flockList.Count - 1; i >= 0; i--)
         {
+            Ladybug ladybug = flockList[i];
+
+            if (ladybug == null)
+            {
+                flockList.RemoveAt(i);
+                continue;
+            }
+
             center += ladybug.transform.position;
-            velocity += ladybug.GetComponent<Rigidbody>().linearVelocity;
+
+            Rigidbody rb = ladybug.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                velocity += rb.linearVelocity;
+            }
+
+            aliveCount++;
         }
-        flockCenter = center / flockSize;
-        flockVelocity = velocity / flockSize;
+
+        if (aliveCount > 0)
+        {
+            flockCenter = center / aliveCount;
+            flockVelocity = velocity / Mathf.Max(1, aliveCount);
+        }
+        else
+        {
+            flockCenter = transform.position;
+            flockVelocity = Vector3.zero;
+        }
+    }
+
+    public void AddToFlock(Ladybug ladybug)
+    {
+        if (ladybug != null && !flockList.Contains(ladybug))
+        {
+            flockList.Add(ladybug);
+        }
     }
 
     public void RemoveFromFlock(Ladybug ladybug)
