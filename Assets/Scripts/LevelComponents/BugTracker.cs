@@ -17,7 +17,7 @@ public class BugTracker : MonoBehaviour
     [SerializeField] private int scorePerLadybug = 15;
     [SerializeField] private int winBonus = 100;
     public int CurrentScore { get; private set; }
-    public int highScore = 0;
+    [SerializeField] public int highScore = 0;
 
     [Header("Timer")]
     [Tooltip("Total time for the level in seconds")]
@@ -26,16 +26,16 @@ public class BugTracker : MonoBehaviour
     private bool levelEnded = false;
 
     [Header("UI (Optional)")]
-    [SerializeField] private TMP_Text ladybugText;      // shows "current / required"
-    [SerializeField] private TMP_Text butterflyText;    // shows "current / required"
+    [SerializeField] private TMP_Text ladybugText;
+    [SerializeField] private TMP_Text butterflyText;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text timerText;
+    [SerializeField] private TMP_Text highScoreText;
 
     [Header("Scene Names")]
     [SerializeField] private string winSceneName = "WinScreen";
     [SerializeField] private string loseSceneName = "LoseScreen";
 
-    // Internal counts
     private int currentLadybugs;
     private int currentButterflies;
 
@@ -51,7 +51,6 @@ public class BugTracker : MonoBehaviour
 
     private void Start()
     {
-        // Initialize
         currentLadybugs = 0;
         currentButterflies = 0;
         CurrentScore = 0;
@@ -71,7 +70,6 @@ public class BugTracker : MonoBehaviour
     {
         if (levelEnded) return;
 
-        // Timer
         remainingTime -= Time.deltaTime;
         if (remainingTime <= 0f)
         {
@@ -84,31 +82,16 @@ public class BugTracker : MonoBehaviour
         UpdateTimerUI();
     }
 
-    // Public API: both names supported for compatibility
-
-    // Called by Net or other systems when catching a butterfly
     public void RegisterButterflyCaught()
     {
         AddButterfly(1);
-        if(CurrentScore > highScore)
-        {
-            highScore = CurrentScore;
-            PlayerPrefs.SetInt("HighScore", highScore);
-        }
     }
 
-    // Called by Net or other systems when catching a ladybug
     public void RegisterLadybugCaught()
     {
         AddLadybug(1);
-        if (CurrentScore > highScore)
-        {
-            highScore = CurrentScore;
-            PlayerPrefs.SetInt("HighScore", highScore);
-        }
     }
 
-    // Call this when a ladybug is collected
     public void AddLadybug(int amount = 1)
     {
         if (levelEnded) return;
@@ -121,13 +104,12 @@ public class BugTracker : MonoBehaviour
 
         CurrentScore += scorePerLadybug * amount;
 
-
+        CheckHighScore();
         Debug.Log($"[BugTracker] Ladybugs: {currentLadybugs}/{requiredLadybugs}");
         UpdateUI();
         CheckWinCondition();
     }
 
-    // Call this when a butterfly is collected
     public void AddButterfly(int amount = 1)
     {
         if (levelEnded) return;
@@ -140,9 +122,20 @@ public class BugTracker : MonoBehaviour
 
         CurrentScore += scorePerButterfly * amount;
 
+        CheckHighScore();
         Debug.Log($"[BugTracker] Butterflies: {currentButterflies}/{requiredButterflies}");
         UpdateUI();
         CheckWinCondition();
+    }
+
+    private void CheckHighScore()
+    {
+        if (CurrentScore > highScore)
+        {
+            highScore = CurrentScore;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            PlayerPrefs.Save();
+        }
     }
 
     private void CheckWinCondition()
@@ -160,6 +153,8 @@ public class BugTracker : MonoBehaviour
         levelEnded = true;
 
         CurrentScore += winBonus;
+
+        CheckHighScore();
         UpdateUI();
 
         Debug.Log("[BugTracker] WIN! All required bugs caught.");
@@ -187,6 +182,9 @@ public class BugTracker : MonoBehaviour
 
         if (scoreText != null)
             scoreText.text = $"{CurrentScore}";
+
+        if (highScoreText != null)
+            highScoreText.text = $"{highScore}";
     }
 
     private void UpdateTimerUI()
@@ -200,7 +198,6 @@ public class BugTracker : MonoBehaviour
         timerText.text = $"{minutes:00}:{seconds:00}";
     }
 
-    // Optional getters
     public int CurrentLadybugs => currentLadybugs;
     public int CurrentButterflies => currentButterflies;
     public int RequiredLadybugs => requiredLadybugs;

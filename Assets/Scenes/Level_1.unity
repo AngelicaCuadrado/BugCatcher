@@ -1969,11 +1969,13 @@ MonoBehaviour:
   scorePerButterfly: 10
   scorePerLadybug: 15
   winBonus: 100
+  highScore: 0
   levelTime: 180
   ladybugText: {fileID: 502995492}
   butterflyText: {fileID: 47374443}
   scoreText: {fileID: 1753685544}
   timerText: {fileID: 1264383088}
+  highScoreText: {fileID: 127106489}
   winSceneName: WinScreen
   loseSceneName: LoseScreen
 --- !u!1001 &898927053
