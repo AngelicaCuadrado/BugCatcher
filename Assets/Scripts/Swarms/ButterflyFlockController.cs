@@ -16,7 +16,6 @@ public class ButterflyFlockController : MonoBehaviour
     public Vector3 flockCenter;
     internal Vector3 flockVelocity;
 
-    // Changed from ArrayList to a typed list so we can clean up nulls safely
     public List<Butterfly> flockList = new List<Butterfly>();
 
     public SwarmFSM fsm;
@@ -113,7 +112,6 @@ public class ButterflyFlockController : MonoBehaviour
     {
         fsm.Update();
 
-        // Clean nulls + compute center & velocity only from alive butterflies
         if (flockList.Count == 0)
         {
             flockCenter = transform.position;

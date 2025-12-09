@@ -32,24 +32,36 @@ public class BugSpawner : MonoBehaviour
             Vector2 randomCircle = Random.insideUnitCircle * spawnRadius;
             Vector3 candidatePos = new Vector3(randomCircle.x, 0f, randomCircle.y) + transform.position;
 
-            float terrainHeight = Terrain.activeTerrain.SampleHeight(candidatePos);
-            candidatePos.y = terrainHeight + heightOffset;
+            Vector3 rayOrigin = candidatePos + Vector3.up * 1000f;
+            Ray ray = new Ray(rayOrigin, Vector3.down);
 
-            bool tooClose = false;
-            foreach (Transform child in transform)
+
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("Floor")))
             {
-                if (Vector3.Distance(child.position, candidatePos) < minSpacing)
+                candidatePos = hit.point + Vector3.up * heightOffset;
+
+                bool tooClose = false;
+                foreach (Transform child in transform)
                 {
-                    tooClose = true;
-                    break;
+                    if (Vector3.Distance(child.position, candidatePos) < minSpacing)
+                    {
+                        tooClose = true;
+                        break;
+                    }
+                }
+
+                if (!tooClose)
+                {
+                    Instantiate(prefab, candidatePos, Quaternion.identity, transform);
+                    spawned++;
                 }
             }
-
-            if (!tooClose)
-            {
-                Instantiate(prefab, candidatePos, Quaternion.identity, transform);
-                spawned++;
-            }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, spawnRadius);
     }
 }
