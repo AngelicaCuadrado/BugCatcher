@@ -17,6 +17,7 @@ public class BugTracker : MonoBehaviour
     [SerializeField] private int scorePerLadybug = 15;
     [SerializeField] private int winBonus = 100;
     public int CurrentScore { get; private set; }
+    public int highScore = 0;
 
     [Header("Timer")]
     [Tooltip("Total time for the level in seconds")]
@@ -55,6 +56,8 @@ public class BugTracker : MonoBehaviour
         currentButterflies = 0;
         CurrentScore = 0;
 
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+
         remainingTime = levelTime;
         levelEnded = false;
 
@@ -87,12 +90,22 @@ public class BugTracker : MonoBehaviour
     public void RegisterButterflyCaught()
     {
         AddButterfly(1);
+        if(CurrentScore > highScore)
+        {
+            highScore = CurrentScore;
+            PlayerPrefs.SetInt("HighScore", highScore);
+        }
     }
 
     // Called by Net or other systems when catching a ladybug
     public void RegisterLadybugCaught()
     {
         AddLadybug(1);
+        if (CurrentScore > highScore)
+        {
+            highScore = CurrentScore;
+            PlayerPrefs.SetInt("HighScore", highScore);
+        }
     }
 
     // Call this when a ladybug is collected
@@ -107,6 +120,7 @@ public class BugTracker : MonoBehaviour
             currentLadybugs = Mathf.Max(0, newCount);
 
         CurrentScore += scorePerLadybug * amount;
+
 
         Debug.Log($"[BugTracker] Ladybugs: {currentLadybugs}/{requiredLadybugs}");
         UpdateUI();
