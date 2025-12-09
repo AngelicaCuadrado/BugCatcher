@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9fc0d4010bbf28b4594072e72b8655ab
+guid: dbc93c49b735be54599fdc98832d3163
 DefaultImporter:
   externalObjects: {}
   userData: 
@@ -7,8 +7,8 @@ DefaultImporter:
   assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
-  productId: 236418
-  packageName: fantasy spiders
+  productId: 221108
+  packageName: Spider polygon
   packageVersion: 1.0
   assetPath: Assets/Spiders/Demo/SpidersAsset.unity
-  uploadId: 535463
+  uploadId: 500411

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8573bcd50d913844991255b0926cb830
+guid: 5970466435848164fb993ea823e0eff2
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 7400000
@@ -8,8 +8,8 @@ NativeFormatImporter:
   assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
-  productId: 236418
-  packageName: fantasy spiders
+  productId: 221108
+  packageName: Spider polygon
   packageVersion: 1.0
   assetPath: Assets/Spiders/Animations/Walk.anim
-  uploadId: 535463
+  uploadId: 500411
