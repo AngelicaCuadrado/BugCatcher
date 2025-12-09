@@ -17,6 +17,7 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyChaseState chaseState = new EnemyChaseState();
     public EnemyDeadState deadState = new EnemyDeadState();
     public EnemySenseState senseState = new EnemySenseState();
+    public EnemyWalkBackState walkBackState = new EnemyWalkBackState();
 
     // animator reference
     [HideInInspector]
@@ -38,16 +39,28 @@ public class EnemyStateManager : MonoBehaviour
     [Header("Combat Settings")]
     public float detectionRange = 200f;
     public float attackRange = 2.5f;
-    public float attackDamage = 1;
+    
 
     [Header("Health")]
     [SerializeField] public float maxHealth = 10f;
     [HideInInspector] public float currentHealth;
     [SerializeField] public float deathShrinkSpeed = 2f;
 
+    [Header("Cobweb Projectile")]
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private Transform projectileSpawnPoint;
+
+    [SerializeField] private float projectileSpeed = 5f;
+    [SerializeField] private float projectileMaxDistance = 5f;
+
+    [SerializeField] private Vector3 projectileStartScale = new Vector3(0.1f, 0.1f, 0.1f);
+    [SerializeField] private Vector3 projectileEndScale = Vector3.one;
+    [SerializeField] private float projectileGrowDuration = 0.3f;
 
     [HideInInspector]
     public NavMeshAgent agent;
+
+
 
     void Awake()
     {
@@ -164,4 +177,64 @@ public class EnemyStateManager : MonoBehaviour
         }
     }
 
+    public void Animation_ShootProjectile()
+    {
+        if (projectilePrefab == null || projectileSpawnPoint == null)
+        {
+            Debug.LogWarning($"{name}: Projectile prefab or spawn point not assigned.");
+            return;
+        }
+
+        GameObject proj = Instantiate(
+            projectilePrefab,
+            projectileSpawnPoint.position,
+            projectileSpawnPoint.rotation
+        );
+
+        // Start small cobweb 
+        proj.transform.localScale = projectileStartScale;
+
+        // Direction is whatever the spawn point is facing
+        Vector3 dir = player.position - projectileSpawnPoint.position;
+        dir.y = .5f;
+        dir = dir.normalized;
+
+        StartCoroutine(ProjectileCobwebRoutine(proj.transform, dir));
+    }
+
+    private System.Collections.IEnumerator ProjectileCobwebRoutine(Transform projectile, Vector3 direction)
+    {
+        if (projectile == null)
+            yield break;
+
+        Vector3 startPos = projectile.position;
+        float traveled = 0f;
+        float growTime = 0f;
+
+        while (projectile != null)
+        {
+            float step = projectileSpeed * Time.deltaTime;
+
+            //  forward
+            projectile.position += direction * step;
+            traveled += step;
+
+            // Grow from startScal to projectileGrowDuration
+            if (growTime < projectileGrowDuration)
+            {
+                growTime += Time.deltaTime;
+                float t = Mathf.Clamp01(growTime / projectileGrowDuration);
+                projectile.localScale = Vector3.Lerp(projectileStartScale, projectileEndScale, t);
+            }
+
+            // Kill after distance
+            if (traveled >= projectileMaxDistance)
+            {
+                Destroy(projectile.gameObject);
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
 }

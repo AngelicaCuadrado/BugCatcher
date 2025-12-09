@@ -31,16 +31,10 @@ public class EnemyAttackingState : EnemyBaseState
 
     public void AttackAnimationEnd(EnemyStateManager enemy)
     {
-       if (enemy.chaseState != null)
-       {
-           enemy.SwitchState(enemy.chaseState);
-       }
-       else
-       {
-           enemy.SwitchState(enemy.idleState);
-       }
-
-
+        enemy.SwitchState(enemy.walkBackState);
+        enemy.animator.SetBool("isAttacking", false);
     }
+
+
 
 }
