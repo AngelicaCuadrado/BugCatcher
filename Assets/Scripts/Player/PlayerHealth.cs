@@ -9,12 +9,19 @@ public class PlayerHealth : MonoBehaviour
 
     public int CurrentHealth { get; private set; }
 
+    [Header("Audio Settings")]
+    public AudioSource audioSource;
+    public AudioClip damageSound;
+
     [Header("Optional Debug")]
     public bool printDebug = true;
 
     private void Start()
     {
         CurrentHealth = maxHealth;
+
+        // Auto-assign if missing
+        if (audioSource == null) audioSource = GetComponent<AudioSource>();
 
         if (printDebug)
         {
@@ -27,6 +34,14 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log($"[PlayerHealth] Took {amount} damage → {CurrentHealth}/{maxHealth}");
         if (amount <= 0) return;
         if (CurrentHealth <= 0) return; // already dead
+
+        // Play Damage Audio
+        if (audioSource != null && damageSound != null)
+        {
+            // Reset pitch in case it was stuck on high from running
+            audioSource.pitch = 1.0f;
+            audioSource.PlayOneShot(damageSound);
+        }
 
         CurrentHealth = Mathf.Clamp(CurrentHealth - amount, 0, maxHealth);
 
@@ -60,10 +75,8 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("[PlayerHealth] Player died");
         }
 
-        // Go to a dedicated Lose Screen instead of reloading the level
         Scene currentScene = SceneManager.GetActiveScene();
         Debug.Log($"[PlayerHealth] Loading LoseScreen from {currentScene.name}");
-        SceneManager.LoadScene("LoseScreen");  // Make sure this scene is in Build Settings
+        SceneManager.LoadScene("LoseScreen");
     }
-
 }
