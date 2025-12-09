@@ -88,7 +88,7 @@ public class Bee : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("Bee has entered");
+        //Debug.Log("Bee has entered");
         //damage player
         if (other.GetComponent<PlayerHealth>()) 
         {

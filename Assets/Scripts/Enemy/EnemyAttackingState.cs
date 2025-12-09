@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyAttackingState : EnemyBaseState
 {
     private bool hasDealtDamage = false; 
+    
     public override void EnterState(EnemyStateManager enemy)
     {
         Debug.Log("Entered Attacking State");
@@ -31,16 +32,10 @@ public class EnemyAttackingState : EnemyBaseState
 
     public void AttackAnimationEnd(EnemyStateManager enemy)
     {
-       if (enemy.chaseState != null)
-       {
-           enemy.SwitchState(enemy.chaseState);
-       }
-       else
-       {
-           enemy.SwitchState(enemy.idleState);
-       }
-
-
+        enemy.SwitchState(enemy.walkBackState);
+        enemy.animator.SetBool("isAttacking", false);
     }
+
+
 
 }

@@ -41,16 +41,16 @@ public class EnemyChaseState : EnemyBaseState
 
         // Otherwise chase via NavMesh
         enemy.agent.SetDestination(enemy.player.position);
-  
 
-    // Close enough  attack
-    //if (distanceToPlayer <= enemy.attackRange)
-    //{
-    //    enemy.agent.ResetPath();
-    //    enemy.SwitchState(enemy.attackingState);
-    //    return;
-    //}
-       
+
+        //Close enough  attack
+        if (distanceToPlayer <= enemy.attackRange)
+        {
+            enemy.agent.ResetPath();
+            enemy.SwitchState(enemy.attackingState);
+            return;
+        }
+
     }
     public override void ExitState(EnemyStateManager enemy)
     {
