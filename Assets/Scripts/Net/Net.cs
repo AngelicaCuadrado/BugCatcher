@@ -4,12 +4,22 @@ public class Net : MonoBehaviour
 {
     public BugTracker bugtracker;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip catchSound;
+
     void Start()
     {
-        // Auto-find if not assigned in Inspector
         if (bugtracker == null)
         {
             bugtracker = FindFirstObjectByType<BugTracker>();
+        }
+
+        if (audioSource == null)
+        {
+            // Try to get one on this object, or from the parent (Player)
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null) audioSource = GetComponentInParent<AudioSource>();
         }
     }
 
@@ -17,22 +27,30 @@ public class Net : MonoBehaviour
     {
         if (bugtracker == null) return;
 
+        bool caughtSomething = false;
+
         // Did we catch a Butterfly?
         Butterfly butterfly = other.GetComponent<Butterfly>();
         if (butterfly != null)
         {
             bugtracker.RegisterButterflyCaught();
             Destroy(butterfly.gameObject);
-            return;
+            caughtSomething = true;
         }
 
         // Did we catch a Ladybug?
         Ladybug ladybug = other.GetComponent<Ladybug>();
-        if (ladybug != null)
+        if (!caughtSomething && ladybug != null)
         {
             bugtracker.RegisterLadybugCaught();
             Destroy(ladybug.gameObject);
-            return;
+            caughtSomething = true;
+        }
+
+        // Play Sound
+        if (caughtSomething && audioSource != null && catchSound != null)
+        {
+            audioSource.PlayOneShot(catchSound);
         }
     }
 }
