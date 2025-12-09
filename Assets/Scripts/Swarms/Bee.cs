@@ -30,16 +30,35 @@ public class Bee : MonoBehaviour
                 controller.minVelocity;
             }
 
-            if (transform.position.y < 0f)
+            Terrain terrain = Terrain.activeTerrain;
+            if (terrain != null)
             {
-                Vector3 pos = transform.position;
-                pos.y = 0f;
-                transform.position = pos;
+                float terrainHeight = terrain.SampleHeight(transform.position) + terrain.GetPosition().y;
 
+                float minHeight = terrainHeight + 0.5f;
+                float maxHeight = terrainHeight + 1.5f;
 
-                if (rigidbody.linearVelocity.y < 0f)
-                    rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
+                if (transform.position.y < minHeight)
+                {
+                    Vector3 pos = transform.position;
+                    pos.y = minHeight;
+                    transform.position = pos;
+
+                    if (rigidbody.linearVelocity.y < 0f)
+                        rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
+                }
+
+                if (rigidbody.linearVelocity.y > maxHeight)
+                {
+                    Vector3 pos = transform.position;
+                    pos.y = maxHeight;
+                    transform.position = pos;
+
+                    if (rigidbody.linearVelocity.y > 0f)
+                        rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
+                }
             }
+            
         }
     }
     private Vector3 Steer()
