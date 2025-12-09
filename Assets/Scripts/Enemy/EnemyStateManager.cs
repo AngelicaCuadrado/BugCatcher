@@ -13,7 +13,7 @@ public class EnemyStateManager : MonoBehaviour
     EnemyBaseState currentState;
     public EnemyIdleState idleState = new EnemyIdleState();
     public EnemyPatrolState patrolState = new EnemyPatrolState();
-    //public EnemyAttackingState attackingState = new EnemyAttackingState();
+    public EnemyAttackingState attackingState = new EnemyAttackingState();
     public EnemyChaseState chaseState = new EnemyChaseState();
     public EnemyDeadState deadState = new EnemyDeadState();
     public EnemySenseState senseState = new EnemySenseState();
@@ -101,7 +101,7 @@ public class EnemyStateManager : MonoBehaviour
             if (vel.sqrMagnitude > 0.01f)
             {
                 Quaternion targetRot = Quaternion.LookRotation(vel.normalized, Vector3.up);
-                float rotSpeed = 10f; // adjust for faster/slower turning
+                float rotSpeed = 10f; 
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
             }
         }
@@ -133,7 +133,7 @@ public class EnemyStateManager : MonoBehaviour
     {
         if(currentHealth <= 0)
         {
-            return; // Already dead
+            return; 
         }
 
         currentHealth -= amount;
@@ -149,7 +149,7 @@ public class EnemyStateManager : MonoBehaviour
     {
         if (currentState == deadState)
         {
-            return; // Prevent multiple death triggers
+            return; 
         }
 
 
