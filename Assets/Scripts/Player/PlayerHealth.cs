@@ -20,7 +20,7 @@ public class PlayerHealth : MonoBehaviour
     {
         CurrentHealth = maxHealth;
 
-        var healthBar = FindFirstObjectByType<HealthBarUI_Slider>();
+        HealthBarUI_Slider healthBar = FindFirstObjectByType<HealthBarUI_Slider>();
         if (healthBar != null)
         {
             healthBar.Initialize(this);

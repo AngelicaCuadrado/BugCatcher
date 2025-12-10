@@ -229,6 +229,7 @@ public class BugTracker : MonoBehaviour
         currentLadybugs = 0;
         currentButterflies = 0;
         currentLevel = 1;
+        UpdateUI();
     }
 
     public int CurrentLadybugs => currentLadybugs;
