@@ -16,4 +16,9 @@ public class Scene_Manager : MonoBehaviour
         Application.Quit();
         Debug.Log("Game closed!"); // Works only in build, not in editor
     }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("Main_Menu");
+    }
 }
