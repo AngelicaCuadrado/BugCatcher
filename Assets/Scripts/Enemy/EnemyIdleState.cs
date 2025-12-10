@@ -6,8 +6,16 @@ public class EnemyIdleState : EnemyBaseState
     private float elapsedTime;
     public override void EnterState(EnemyStateManager enemy)
     {
-        
-        enemy.animator.SetFloat("speed", 0f);
+
+        if (enemy.animator != null)
+            enemy.animator.SetFloat("speed", 0f);
+
+        if (enemy.agent != null)
+        {
+            enemy.agent.isStopped = true;
+            enemy.agent.ResetPath();
+            enemy.agent.velocity = Vector3.zero;   // kills any residual slide
+        }
 
         elapsedTime = 0f;
 
@@ -34,7 +42,7 @@ public class EnemyIdleState : EnemyBaseState
     {
         
         //enemy.animator.SetFloat("speed", 1f);
-        Debug.Log("Exiting Idle State");
+        
     }
 
 }
