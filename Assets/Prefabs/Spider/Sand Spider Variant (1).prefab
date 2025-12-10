@@ -219,6 +219,18 @@ PrefabInstance:
       propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 9000000, guid: a96ff394aa19efb4bbcd55446aefd7db, type: 2}
+    - target: {fileID: 900668893379403897, guid: 3af956640595c6e4cb9436f0f4545ffd, type: 3}
+      propertyPath: m_Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 900668893379403897, guid: 3af956640595c6e4cb9436f0f4545ffd, type: 3}
+      propertyPath: m_BaseOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 900668893379403897, guid: 3af956640595c6e4cb9436f0f4545ffd, type: 3}
+      propertyPath: m_WalkableMask
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 991334199354024189, guid: 3af956640595c6e4cb9436f0f4545ffd, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.7069834
