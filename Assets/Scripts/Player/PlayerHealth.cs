@@ -20,6 +20,12 @@ public class PlayerHealth : MonoBehaviour
     {
         CurrentHealth = maxHealth;
 
+        var healthBar = FindFirstObjectByType<HealthBarUI_Slider>();
+        if (healthBar != null)
+        {
+            healthBar.Initialize(this);
+        }
+
         // Auto-assign if missing
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
 

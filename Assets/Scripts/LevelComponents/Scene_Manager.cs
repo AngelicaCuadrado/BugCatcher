@@ -5,6 +5,7 @@ public class Scene_Manager : MonoBehaviour
 {
     public void PlayGame()
     {
+        BugTracker.Instance.ResetGame();
         SceneManager.LoadScene("Level_1");
     }
 

@@ -7,10 +7,13 @@ public class BugTracker : MonoBehaviour
     public static BugTracker Instance { get; private set; }
 
     [Header("Targets")]
-    [SerializeField] private int requiredLadybugs = 3;
-    [SerializeField] private int requiredButterflies = 5;
+    [SerializeField] private int baseLadybugs = 3;
+    [SerializeField] private int baseButterflies = 5;
     [Tooltip("If true, counts will be clamped to the required values (won't exceed).")]
     [SerializeField] private bool clampToRequired = false;
+
+    private int requiredLadybugs;
+    private int requiredButterflies;
 
     [Header("Scoring")]
     [SerializeField] private int scorePerButterfly = 10;
@@ -39,6 +42,8 @@ public class BugTracker : MonoBehaviour
     private int currentLadybugs;
     private int currentButterflies;
 
+    int currentLevel = 1;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -47,22 +52,12 @@ public class BugTracker : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        currentLadybugs = 0;
-        currentButterflies = 0;
-        CurrentScore = 0;
-
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
-
-        remainingTime = levelTime;
-        levelEnded = false;
-
-        UpdateUI();
-        UpdateTimerUI();
-
+        SetupLevel();
         Debug.Log($"[BugTracker] Level started. Time: {levelTime} seconds");
     }
 
@@ -157,9 +152,18 @@ public class BugTracker : MonoBehaviour
         CheckHighScore();
         UpdateUI();
 
-        Debug.Log("[BugTracker] WIN! All required bugs caught.");
-        if (!string.IsNullOrEmpty(winSceneName))
+
+        if (currentLevel < 3)
+        {
+            currentLevel++;
+            SceneManager.sceneLoaded += OnSceneReloaded;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            Debug.Log("[BugTracker] WIN! All required bugs caught.");
             SceneManager.LoadScene(winSceneName);
+        }
     }
 
     private void TimeUpLose()
@@ -196,6 +200,35 @@ public class BugTracker : MonoBehaviour
         int seconds = totalSeconds % 60;
 
         timerText.text = $"{minutes:00}:{seconds:00}";
+    }
+
+    private void SetupLevel()
+    {
+        requiredLadybugs = baseLadybugs * currentLevel;
+        requiredButterflies = baseButterflies * currentLevel;
+
+        currentLadybugs = 0;
+        currentButterflies = 0;
+
+        remainingTime = levelTime;
+        levelEnded = false;
+
+        UpdateUI();
+        UpdateTimerUI();
+    }
+
+    private void OnSceneReloaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= OnSceneReloaded;
+        SetupLevel();
+    }
+
+    public void ResetGame()
+    {
+        CurrentScore = 0;
+        currentLadybugs = 0;
+        currentButterflies = 0;
+        currentLevel = 1;
     }
 
     public int CurrentLadybugs => currentLadybugs;
