@@ -86,7 +86,7 @@ public class SwarmFSM
         {
             currentState.onExit();
         }
-        Debug.LogFormat("Transition from state '{0}' to state '{1}'", currentState, newState);
+        //Debug.LogFormat("Transition from state '{0}' to state '{1}'", currentState, newState);
         currentState = newState;
         if (newState.onEnter != null)
         {

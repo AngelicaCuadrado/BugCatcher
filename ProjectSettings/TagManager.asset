@@ -12,6 +12,7 @@ TagManager:
   - ControlsUI
   - MainUI
   - Enemy
+  - SpiderGift
   layers:
   - Default
   - TransparentFX

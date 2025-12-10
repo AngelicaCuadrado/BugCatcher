@@ -61,15 +61,22 @@ public class EnemyStateManager : MonoBehaviour
     public NavMeshAgent agent;
 
 
+    [Header("Visuals")]
+    [SerializeField] private EnemyAura aura;
+
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip attackOne;
     [SerializeField] private AudioClip attackTwo;
+
+
+
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
+        aura = GetComponentInChildren<EnemyAura>();
 
         // Disable automatic rotation so we can control visual facing
         if (agent != null)
@@ -125,8 +132,14 @@ public class EnemyStateManager : MonoBehaviour
     }
     public void SwitchState(EnemyBaseState state)
     {
-        currentState.ExitState(this);
+        if (currentState != null)
+            currentState.ExitState(this);
+
         currentState = state;
+
+        if (aura != null)
+            aura.ApplyColorForState(currentState, this);
+
         currentState.EnterState(this);
     }
 
@@ -183,30 +196,57 @@ public class EnemyStateManager : MonoBehaviour
 
     public void Animation_ShootProjectile()
     {
-        
+
         if (projectilePrefab == null || projectileSpawnPoint == null)
         {
             Debug.LogWarning($"{name}: Projectile prefab or spawn point not assigned.");
             return;
         }
 
+        // Instantiate gift box
         GameObject proj = Instantiate(
             projectilePrefab,
             projectileSpawnPoint.position,
             projectileSpawnPoint.rotation
         );
 
-        // Start small cobweb 
-        proj.transform.localScale = projectileStartScale;
+        // Ensure it has a rigidbody
+        Rigidbody rb = proj.GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = proj.AddComponent<Rigidbody>();
+            rb.useGravity = true;
+        }
 
-        // Direction is whatever the spawn point is facing
-        Vector3 dir = player.position - projectileSpawnPoint.position;
-        dir.y = .5f;
-        dir = dir.normalized;
+        // Choose a target point on navmesh near the player
+        Vector3 targetPos = player.position;
+        targetPos.y += 1f; // aim slightly above player before dropping
 
-        StartCoroutine(ProjectileCobwebRoutine(proj.transform, dir));
+        // Optional: sample onto navmesh / ground
+        // using UnityEngine.AI;
+        UnityEngine.AI.NavMeshHit hit;
+        if (UnityEngine.AI.NavMesh.SamplePosition(player.position, out hit, 5f, UnityEngine.AI.NavMesh.AllAreas))
+        {
+            targetPos = hit.position;
+        }
 
-        audioSource.PlayOneShot(attackOne);
+        // Compute ballistic velocity
+        float launchAngle = 45f; // degrees
+        Vector3 vel;
+        if (TryGetBallisticVelocity(projectileSpawnPoint.position, targetPos, launchAngle, out vel))
+        {
+            rb.linearVelocity = vel;
+        }
+        else
+        {
+            // fallback: just lob forward-up
+            Vector3 dir = (targetPos - projectileSpawnPoint.position).normalized;
+            rb.linearVelocity = (dir + Vector3.up) * 8f;
+        }
+
+        // Play audio
+        if (audioSource != null && attackOne != null)
+            audioSource.PlayOneShot(attackOne);
     }
 
     private System.Collections.IEnumerator ProjectileCobwebRoutine(Transform projectile, Vector3 direction)
@@ -243,5 +283,42 @@ public class EnemyStateManager : MonoBehaviour
 
             yield return null;
         }
+    }
+    bool TryGetBallisticVelocity(Vector3 start, Vector3 end, float angleDeg, out Vector3 velocity)
+    {
+        float g = Mathf.Abs(Physics.gravity.y);
+        float rad = angleDeg * Mathf.Deg2Rad;
+
+        Vector3 dir = end - start;
+        Vector3 dirXZ = new Vector3(dir.x, 0f, dir.z);
+
+        float dist = dirXZ.magnitude;
+        float yOffset = dir.y;
+
+        float cos = Mathf.Cos(rad);
+        float sin = Mathf.Sin(rad);
+
+        float denom = 2 * (yOffset - Mathf.Tan(rad) * dist) * cos * cos;
+
+        if (Mathf.Abs(denom) < 0.001f)
+        {
+            velocity = Vector3.zero;
+            return false;
+        }
+
+        float v2 = (g * dist * dist) / denom;
+        if (v2 <= 0f)
+        {
+            velocity = Vector3.zero;
+            return false;
+        }
+
+        float v = Mathf.Sqrt(v2);
+
+        Vector3 vel = dirXZ.normalized * v * cos;
+        vel.y = v * sin;
+
+        velocity = vel;
+        return true;
     }
 }
