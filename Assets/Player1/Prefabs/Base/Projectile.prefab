@@ -347,6 +347,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6225480419434707082, guid: 42ef3d1c843543e4580de79b35da3225, type: 3}
       insertIndex: -1
       addedObject: {fileID: -6238492076161786697}
+    - targetCorrespondingSourceObject: {fileID: 6225480419434707082, guid: 42ef3d1c843543e4580de79b35da3225, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2814474179163826829}
   m_SourcePrefab: {fileID: 100100000, guid: 42ef3d1c843543e4580de79b35da3225, type: 3}
 --- !u!4 &205503824107496627 stripped
 Transform:
@@ -406,3 +409,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.21364808, y: 0.16275723, z: 0.21113479}
   m_Center: {x: 0, y: 0.08220064, z: -0.000000029802322}
+--- !u!114 &2814474179163826829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689552185676611081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1305e9e4fefc8584ba6950e202244f9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionVFX: {fileID: 417761080263594737, guid: 7800b8f6b712bfe49bd663eeb3ebe1e4, type: 3}
+  tinySpiderPrefab: {fileID: 1622249923440785582, guid: 8245fb50f4f7b3d4f850ba1b471454ed, type: 3}
+  destroyDelay: 2
+  tinySpiderScale: {x: 0.3, y: 0.3, z: 0.3}
+  explosionScale: 1
