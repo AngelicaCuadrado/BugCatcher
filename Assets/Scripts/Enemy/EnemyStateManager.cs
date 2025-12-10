@@ -61,15 +61,22 @@ public class EnemyStateManager : MonoBehaviour
     public NavMeshAgent agent;
 
 
+    [Header("Visuals")]
+    [SerializeField] private EnemyAura aura;
+
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip attackOne;
     [SerializeField] private AudioClip attackTwo;
+
+
+
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
+        aura = GetComponentInChildren<EnemyAura>();
 
         // Disable automatic rotation so we can control visual facing
         if (agent != null)
@@ -125,8 +132,14 @@ public class EnemyStateManager : MonoBehaviour
     }
     public void SwitchState(EnemyBaseState state)
     {
-        currentState.ExitState(this);
+        if (currentState != null)
+            currentState.ExitState(this);
+
         currentState = state;
+
+        if (aura != null)
+            aura.ApplyColorForState(currentState, this);
+
         currentState.EnterState(this);
     }
 
